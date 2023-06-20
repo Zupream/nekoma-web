@@ -52,7 +52,7 @@ function HomePage() {
         <div className="flex flex-col justify-center  items-stretch px-4 pb-16">
           <RoomCardContainer>
             {allRooms.map((el, idx) => (
-              <Card key={el.id} img={el.coverUrl} />
+              <Card key={el.id} img={el.coverUrl} roomId={el.id} />
             ))}
           </RoomCardContainer>
         </div>

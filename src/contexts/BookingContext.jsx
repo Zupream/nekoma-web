@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import * as roomService from "../api/room-api";
+import * as bookingService from "../api/booking-api";
 
 const BookingContext = createContext(null);
 
@@ -8,6 +9,9 @@ function BookingContextProvider({ children }) {
   //   const [checkOut, setCheckOut] = useState(new Date());
   //   const [petNumber, setPetNumber] = useState(1);
   const [rooms, setRooms] = useState(null);
+
+  const [booking, setBooking] = useState(null);
+  const [myBookings, setMyBookings] = useState([]);
 
   //   const test = () => {
   //     console.log("test");
@@ -18,7 +22,54 @@ function BookingContextProvider({ children }) {
     setRooms(res.data.rooms);
   };
 
-  const values = { searchRooms, rooms };
+  const fetchBookingDetail = async (bookingId) => {
+    const res = await bookingService.getBookingById(bookingId);
+    setBooking(res.data.booking);
+  };
+
+  const getMyBooking = async () => {
+    const res = await bookingService.getMyBooking();
+    setMyBookings(res.data.myBooking);
+
+    console.log(res.data);
+  };
+
+  const deleteBooking = async (bookingId) => {
+    await bookingService.deleteBooking(bookingId);
+  };
+
+  const createBooking = async (values) => {
+    const res = await bookingService.createBooking(values);
+    const newBookingId = res.data.booking.id;
+
+    await fetchBookingDetail(newBookingId);
+    getMyBooking();
+
+    return newBookingId;
+  };
+
+  const updatePayment = async (bookingId, slip, request) => {
+    if (slip.length < 1) return;
+    const slipArray = Array.from(slip);
+
+    const formData = new FormData();
+    formData.append("image", slipArray[0]);
+    formData.append("specialRequest", request);
+    await bookingService.uploadSlip(bookingId, formData);
+    await fetchBookingDetail(bookingId);
+  };
+
+  const values = {
+    searchRooms,
+    rooms,
+    createBooking,
+    booking,
+    fetchBookingDetail,
+    updatePayment,
+    getMyBooking,
+    myBookings,
+    deleteBooking,
+  };
 
   return (
     <BookingContext.Provider value={values}>{children}</BookingContext.Provider>

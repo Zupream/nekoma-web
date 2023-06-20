@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDays, faCat } from "@fortawesome/free-solid-svg-icons";
-import DatePicker from "react-datepicker";
+import DatePicker, { CalendarContainer } from "react-datepicker";
 import { useNavigate } from "react-router-dom";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -13,17 +13,31 @@ function Checkroom({ dateObject }) {
   const [checkIn, setCheckIn] = useState(
     dateObject?.checkIn ? new Date(dateObject.checkIn) : new Date()
   );
+  // new Date คือวันปัจจุบัน >> หน้าโฮมยังไม่มีวันเชคอินเชคเอ้า เลยแสดงเป็นวันปัจจุบน
+  // dateObject?.checkIn ? คือมีวันเชควินไหม
   const [checkOut, setCheckOut] = useState(
     dateObject?.checkOut ? new Date(dateObject.checkOut) : new Date()
   );
   const [petNumber, setPetNumber] = useState(
-    dateObject?.petNumber ? dateObject.petNumber : 1
+    dateObject?.petNumber ? +dateObject.petNumber : 1
   );
 
   const checkInStr = checkIn.toLocaleDateString();
   const checkOutStr = checkOut.toLocaleDateString();
+  // toLocaleDateString = แปลงวันที่เป็นสตริง
 
   const navigate = useNavigate();
+
+  const MyContainer = ({ className, children }) => {
+    return (
+      <div style={{ zIndex: 500000 }}>
+        <CalendarContainer className={className}>
+          <div>What is your favorite day?</div>
+          <div style={{ zIndex: 500000 }}>{children}</div>
+        </CalendarContainer>
+      </div>
+    );
+  };
 
   return (
     <div className="p-8 ">

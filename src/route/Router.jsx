@@ -33,7 +33,7 @@ const router = createBrowserRouter([
         element: <CheckroomPage />,
       },
       {
-        path: "/room",
+        path: "/room/:roomId",
         element: <RoomtypePage />,
       },
     ],
@@ -73,7 +73,7 @@ const router = createBrowserRouter([
         element: <RulePage />,
       },
       {
-        path: "/payment",
+        path: "/payment/:bookingId",
         element: <PaymentPage />,
       },
       {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PageContainer from "../layouts/PageContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,9 +15,35 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Room from "../image/Room1.png";
 import qr from "../image/QR.png";
+import { useBooking } from "../contexts/BookingContext";
+import { useParams, useNavigate } from "react-router-dom";
 
 function PaymentPage() {
-  return (
+  const values = useBooking();
+  const { booking, fetchBookingDetail, updatePayment, deleteBooking } = values;
+  const { bookingId } = useParams();
+  const [request, setRequest] = useState("");
+  const [slip, setSlip] = useState(null);
+  const navigate = useNavigate();
+
+  const handleSubmitPayment = async () => {
+    if (!slip) return;
+    await updatePayment(bookingId, slip, request);
+    navigate("/history");
+  };
+
+  const handdleDelete = async () => {
+    deleteBooking(bookingId);
+    navigate("/");
+  };
+
+  useEffect(() => {
+    if (!booking) {
+      fetchBookingDetail(bookingId);
+    }
+  }, []);
+
+  return !booking ? null : (
     <PageContainer>
       <div className="bg-card text-center py-4 text-bb ">
         <ul>
@@ -40,7 +66,7 @@ function PaymentPage() {
               <div>
                 <div className="pl-2 text-lg  text-bb ">เช็คอิน</div>
                 <div className="pl-2 text-base pb-3 text-bb ">
-                  วันที่ mockup
+                  {booking.checkIn}
                 </div>
               </div>
             </div>
@@ -56,7 +82,7 @@ function PaymentPage() {
               <div className="pl-1">
                 <div className="pl-2 text-lg  text-bb ">เช็คเอาท์</div>
                 <div className="pl-2 text-base pb-3 text-bb ">
-                  วันที่ mockup
+                  {booking.checkOut}
                 </div>
               </div>
             </div>
@@ -71,7 +97,9 @@ function PaymentPage() {
               </div>
               <div>
                 <div className="pl-2 text-lg  text-bb ">จำนวนวัน</div>
-                <div className="pl-2 text-base pb-3 text-bb ">:mockup</div>
+                <div className="pl-2 text-base pb-3 text-bb ">
+                  {booking.totalDay}
+                </div>
               </div>
             </div>
             <div className="flex flex-row pt-8 p-2 items-center">
@@ -86,7 +114,7 @@ function PaymentPage() {
               <div>
                 <div className="pl-2 text-lg  text-bb ">จำนวนแมว</div>
                 <div className="pl-2 text-base pb-3 text-bb ">
-                  :จำนวน mockup
+                  {booking.amountPet}
                 </div>
               </div>
             </div>
@@ -118,7 +146,7 @@ function PaymentPage() {
                   <div className="text-bb w-11/12 ">
                     <p className="text-lg">E-mail</p>
 
-                    <p>Detail database ไม่สามารถแก้ไขได้</p>
+                    <p>{booking.User.email}</p>
                   </div>
                 </div>
               </div>
@@ -133,9 +161,11 @@ function PaymentPage() {
                     className="pt-2 pr-2"
                   />
                   <div className="text-bb w-11/12 ">
-                    <p className="text-lg">ชื่อ-นามสกุล</p>
+                    <p className="text-lg">ชื่อ - นามสกุล</p>
                     <div>
-                      <p>Detail database </p>
+                      <p>
+                        {booking.User.firstName} {booking.User.lastName}{" "}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -152,7 +182,7 @@ function PaymentPage() {
                   <div className="text-bb w-11/12 ">
                     <p className="text-lg">เบอร์โทร</p>
                     <div>
-                      <p>Detail database แก้ไขได้</p>
+                      <p>{booking.User.tel}</p>
                     </div>
                   </div>
                 </div>
@@ -174,7 +204,9 @@ function PaymentPage() {
                           type="text"
                           className="  form-input w-full h-12 rounded-xl border-white  "
                           placeholder="กรุณากรอกคำขอพิเศษหรือข้อมูลที่ท่านต้องการเปลี่ยนชั่วคราว"
-                        ></input>
+                          onChange={(e) => setRequest(e.target.value)}
+                          value={request}
+                        />
                       </div>
                     </div>
                   </div>
@@ -206,7 +238,7 @@ function PaymentPage() {
                 <img src={qr} className="w-52"></img>
               </div>
               <div className="text-center p-4 text-bb text-lg ">
-                <p>จำนวนเงิน : Mockup</p>
+                <p>จำนวนเงิน : {booking.totalPrice}</p>
               </div>
             </div>
           </div>
@@ -226,23 +258,33 @@ function PaymentPage() {
                   </p>
                 </div>
                 <hr></hr>
-                <div className="flex items-center justify-center pt-8">
+                <div className="flex items-center justify-center pt-8 pb-8">
                   <input
                     type="file"
-                    className="file-input file-input-bordered file-input-success w-full max-w-xs"
+                    className="file-input file-input-bordered file-input-success w-full  max-w-xs"
+                    onChange={(e) => setSlip(e.target.files)}
                   />
                 </div>
-                <div className="p-4 pt-8">
+                {/* <div className="p-4 pt-8">
                   <p>วันที่โอน</p>
                   <p>mockup</p>
                 </div>
                 <div className="p-4 pb-8">
                   <p>เวลาที่โอน</p>
                   <p>mockup</p>
-                </div>
+                </div> */}
                 <div className="flex justify-around">
-                  <button className="btn btn-warning">ยืนยันการชำระเงิน</button>
-                  <button className="btn btn-error">ยกเลิกการจอง</button>
+                  <button
+                    className="btn btn-warning"
+                    onClick={() => {
+                      handleSubmitPayment();
+                    }}
+                  >
+                    ยืนยันการชำระเงิน
+                  </button>
+                  <button className="btn btn-error" onClick={handdleDelete}>
+                    ยกเลิกการจอง
+                  </button>
                 </div>
               </div>
             </div>
@@ -259,13 +301,17 @@ function PaymentPage() {
           <div className="rounded-xl border-2">
             <div className="grid grid-cols-2 rounded-xl  ">
               <div className="p-4">
-                <img src={Room} className="w-full rounded-xl"></img>
+                <img
+                  src={booking.Room.coverUrl}
+                  className="w-full rounded-xl"
+                ></img>
               </div>
               <div className="flex items-center justify-center">
                 <div className="text-center text-bb text-sm font-normal">
                   <div className=" bg-midnight h-fit rounded-xl w-52  p-2">
                     <h1>
-                      Standard ราคา 250 บาท/คืน<br></br> รองรับแมวได้ 1 ตัว
+                      {booking.Room.typeRoom} ราคา {booking.Room.price} บาท/คืน
+                      <br></br> รองรับแมวได้ {booking.Room.maxPet} ตัว
                     </h1>
                   </div>
                 </div>
@@ -276,10 +322,13 @@ function PaymentPage() {
             </div>
             <div className="text-bb p-4">
               <h1 className="text-xl pb-4">รายละเอียดราคา</h1>
-              <p>ราคาห้อง __(mockup ชื่อห้อง)__</p>
+              <p>ราคาห้อง {booking.Room.typeRoom}</p>
               <div className="flex flex-row justify-between ">
-                <p>คำนวน (฿550 x 2 วัน)</p>
-                <p>฿1,100 mockup</p>
+                <p>
+                  {" "}
+                  (฿{booking.Room.price}x {booking.totalDay} วัน)
+                </p>
+                <p>฿{booking.totalPrice}</p>
               </div>
             </div>
           </div>

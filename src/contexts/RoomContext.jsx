@@ -7,20 +7,26 @@ const RoomContext = createContext(null);
 
 function RoomContextProvider({ children }) {
   const [allRooms, setAllRooms] = useState([]);
+  const [roomDetail, setRoomDetail] = useState({});
 
   const fetchAllRooms = async () => {
     const res = await roomService.getAllRooms();
     setAllRooms(res.data.rooms);
   };
+
   useEffect(() => {
     fetchAllRooms();
   }, []);
 
+  const fetchRoomDetail = async (roomId) => {
+    const res = await roomService.getRoomDetailById(roomId);
+    setRoomDetail(res.data.roomDetail);
+  };
   //   const test = () => {
   //     console.log("test");
   //   };
   //   const values = { test };
-  const values = { allRooms };
+  const values = { allRooms, roomDetail, fetchRoomDetail };
 
   return <RoomContext.Provider value={values}>{children}</RoomContext.Provider>;
 }

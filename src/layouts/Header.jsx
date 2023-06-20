@@ -8,9 +8,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { removeAccessToken } from "../utils/localstorage";
 function Header() {
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  const logOut = () => {
+    removeAccessToken();
+    navigate(0);
+  };
 
   return (
     <div className="h-16 bg-midnight">
@@ -47,6 +53,9 @@ function Header() {
                   onClick={() => navigate("/profile")}
                 >
                   โปรไฟล์
+                </div>
+                <div className="pl-2 cursor-pointer" onClick={() => logOut()}>
+                  ออกจากระบบ
                 </div>
               </>
             ) : (
