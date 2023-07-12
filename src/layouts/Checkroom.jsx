@@ -95,10 +95,10 @@ function Checkroom({ dateObject }) {
               <p>ที่จะเข้าพัก</p>
             </div>
           </div>
-          <div className="flex items-center justify-center text-bb">
+          <div className="flex items-center  justify-center text-bb">
             {petNumber}
           </div>
-          <div className="grid grid-cols-2 py-6 pr-4  w-20 text-white">
+          <div className="grid grid-cols-2 py-6 px-3  w-20 text-white">
             <button
               className="bg-midnight border-r-2 rounded-l-xl cursor-pointer"
               onClick={() => setPetNumber((el) => (el <= 1 ? el : el - 1))}

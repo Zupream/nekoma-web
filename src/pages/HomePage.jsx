@@ -34,27 +34,29 @@ function HomePage() {
 
   return (
     <PageContainer>
-      <div className="bg-background">
-        <div>
-          <img src={picHome} className="object-cover w-full"></img>
-        </div>
-        {/* ***************** */}
-        <Checkroom />
-        {/* ***************** */}
-        <div className="flex flex-row pt-4 drop-shadow-lg">
-          <FontAwesomeIcon
-            icon={faHouse}
-            className="pr-2 pb-1 my-auto text-bb pl-4"
-          />
-          <div className="text-bb font-medium">ห้องพักทั้งหมด</div>
-        </div>
-        {/* *****Detail room***** */}
-        <div className="flex flex-col justify-center  items-stretch px-4 pb-16">
-          <RoomCardContainer>
-            {allRooms.map((el, idx) => (
-              <Card key={el.id} img={el.coverUrl} roomId={el.id} />
-            ))}
-          </RoomCardContainer>
+      <div className="bg-background ">
+        <div className="overflow-y-auto">
+          <div>
+            <img src={picHome} className="object-cover w-full"></img>
+          </div>
+          {/* ***************** */}
+          <Checkroom />
+          {/* ***************** */}
+          <div className="flex flex-row pt-4 drop-shadow-lg">
+            <FontAwesomeIcon
+              icon={faHouse}
+              className="pr-2 pb-1 my-auto text-bb pl-4"
+            />
+            <div className="text-bb font-medium">ห้องพักทั้งหมด</div>
+          </div>
+          {/* *****Detail room***** */}
+          <div className="flex flex-col justify-center  items-stretch px-8 pb-16">
+            <RoomCardContainer>
+              {allRooms.map((el, idx) => (
+                <Card key={el.id} img={el.coverUrl} roomId={el.id} />
+              ))}
+            </RoomCardContainer>
+          </div>
         </div>
         {/* ********end detail staer service****** */}
 

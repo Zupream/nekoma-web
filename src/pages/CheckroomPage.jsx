@@ -37,11 +37,11 @@ function CheckroomPage() {
 
   return (
     <PageContainer>
-      <div className="grid place-items-center bg-background  h-[calc(100vh-12rem)]">
-        <div className="flex items-start ">
+      <div className=" bg-background overflow-scroll  h-[calc(100vh-12rem)]">
+        <div className="">
           <Checkroom dateObject={dateObject} />
         </div>
-        <div className="pb-8">
+        <div className="px-8">
           <RoomCardContainer>
             {rooms
               ? rooms.map((el, idx) => (
