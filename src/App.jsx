@@ -18,6 +18,7 @@ import Router from "./route/Router";
 import AuthContextProvider from "./contexts/AuthContext";
 import RoomContextProvider from "./contexts/RoomContext";
 import BookingContextProvider from "./contexts/BookingContext";
+import AdminContextProvider from "./contexts/AdminContext";
 
 function App() {
   return (
@@ -39,13 +40,15 @@ function App() {
       {/* <ConfirmSlip /> */}
       {/* <Editroom /> */}
       {/* <Detailedit /> */}
-      <AuthContextProvider>
-        <BookingContextProvider>
-          <RoomContextProvider>
-            <Router />
-          </RoomContextProvider>
-        </BookingContextProvider>
-      </AuthContextProvider>
+      <AdminContextProvider>
+        <AuthContextProvider>
+          <BookingContextProvider>
+            <RoomContextProvider>
+              <Router />
+            </RoomContextProvider>
+          </BookingContextProvider>
+        </AuthContextProvider>
+      </AdminContextProvider>
     </>
   );
 }

@@ -35,7 +35,7 @@ function HomePage() {
   return (
     <PageContainer>
       <div className="bg-background ">
-        <div className="overflow-y-auto">
+        <div className="overflow">
           <div>
             <img src={picHome} className="object-cover w-full"></img>
           </div>

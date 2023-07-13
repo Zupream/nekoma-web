@@ -18,6 +18,7 @@ import Detailedit from "../admin/Detailedit";
 import RedirectIfAuthenticated from "../layouts/RedirectIfAuthenticated";
 import ProtectedRoute from "../layouts/ProtectedRoute";
 import AdminProtectedRoute from "../layouts/AdminProtectedRoute";
+import AdminContextProvider from "../contexts/AdminContext";
 
 const router = createBrowserRouter([
   {

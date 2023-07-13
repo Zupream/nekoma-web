@@ -22,10 +22,7 @@ function RoomContextProvider({ children }) {
     const res = await roomService.getRoomDetailById(roomId);
     setRoomDetail(res.data.roomDetail);
   };
-  //   const test = () => {
-  //     console.log("test");
-  //   };
-  //   const values = { test };
+
   const values = { allRooms, roomDetail, fetchRoomDetail };
 
   return <RoomContext.Provider value={values}>{children}</RoomContext.Provider>;
