@@ -12,7 +12,7 @@ function BookingContextProvider({ children }) {
 
   const [booking, setBooking] = useState(null);
   const [myBookings, setMyBookings] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   //   const test = () => {
   //     console.log("test");
   //   };
@@ -49,14 +49,21 @@ function BookingContextProvider({ children }) {
   };
 
   const updatePayment = async (bookingId, slip, request) => {
-    if (slip.length < 1) return;
-    const slipArray = Array.from(slip);
+    try {
+      setLoading(true);
+      if (slip.length < 1) return;
+      const slipArray = Array.from(slip);
 
-    const formData = new FormData();
-    formData.append("image", slipArray[0]);
-    formData.append("specialRequest", request);
-    await bookingService.uploadSlip(bookingId, formData);
-    await fetchBookingDetail(bookingId);
+      const formData = new FormData();
+      formData.append("image", slipArray[0]);
+      formData.append("specialRequest", request);
+      await bookingService.uploadSlip(bookingId, formData);
+      await fetchBookingDetail(bookingId);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const values = {
@@ -69,6 +76,7 @@ function BookingContextProvider({ children }) {
     getMyBooking,
     myBookings,
     deleteBooking,
+    loading,
   };
 
   return (

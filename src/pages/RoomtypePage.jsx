@@ -41,6 +41,8 @@ function RoomtypePage() {
     fetchRoomDetail(roomId);
   }, []);
 
+  console.log(roomDetail);
+
   return (
     <PageContainer>
       <div className="bg-background">
@@ -48,7 +50,7 @@ function RoomtypePage() {
           <img src={roomDetail.typeRoomUrl} className="w-96"></img>
         </div>
         <div className="flex items-center justify-center ">
-          <img src={roomstd}></img>
+          <img src={roomDetail.RoomImgs?.[0].urlImg}></img>
         </div>
         <div className="flex flex-row pt-10 text-bb pl-6">
           <FontAwesomeIcon icon={faHouse} />
@@ -61,7 +63,7 @@ function RoomtypePage() {
                 Nekoma House - {roomDetail.typeRoom}
               </h1>
               <ul>
-                <li> กล้องวงจรปิดดูและพูดคุยกับน้องได้ตลอด 24 ชม </li>
+                {/* <li> กล้องวงจรปิดดูและพูดคุยกับน้องได้ตลอด 24 ชม </li>
                 <li>
                   พื้นที่ส่วนกลางให้น้องแมวเดินเล่น ผ่อนคลาย
                   พร้อมถ่ายภาพรายงานให้เจ้าของหายคิดถึง
@@ -71,7 +73,8 @@ function RoomtypePage() {
                   และตู้ปลาให้ส่องพี่ปลา ~
                 </li>
                 <li>ชามอาหาร และน้ำสะอาดผ่านการกรองด้วยระบบ RO</li>
-                <li>เปิด Cat Calming Music ให้น้องๆฟังกันทั้งวัน</li>
+                <li>เปิด Cat Calming Music ให้น้องๆฟังกันทั้งวัน</li> */}
+                <h1>{roomDetail.roomDetail}</h1>
               </ul>
               <br></br>
 

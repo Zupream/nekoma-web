@@ -104,7 +104,7 @@ const router = createBrowserRouter([
         element: <Editroom />,
       },
       {
-        path: "/admin/edit",
+        path: "/admin/edit/:roomId",
         element: <Detailedit />,
       },
     ],

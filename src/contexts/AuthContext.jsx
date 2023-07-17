@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import * as authService from "../api/auth-api";
-import { setAccessToken } from "../utils/localstorage";
+import { removeAccessToken, setAccessToken } from "../utils/localstorage";
 
 const AuthContext = createContext(null);
 
@@ -10,8 +10,12 @@ function AuthContextProvider({ children }) {
   // ดึงข้อมูลเพื่อดูว่าล้อคอินหรือยัง
   useEffect(() => {
     const run = async () => {
-      const res = await authService.fetchMe();
-      setUser(res.data.user);
+      try {
+        const res = await authService.fetchMe();
+        setUser(res.data.user);
+      } catch (err) {
+        console.log(err);
+      }
     };
     run();
   }, []);

@@ -1,7 +1,19 @@
 import React from "react";
 import PageContainer from "../layouts/PageContainer";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { removeAccessToken } from "../utils/localstorage";
+import Loading from "../components/common/Loading";
+import { useAdmin } from "../contexts/AdminContext";
 
 function Headeradmin() {
+  const navigate = useNavigate();
+  const { loading } = useAdmin();
+
+  const logOut = () => {
+    removeAccessToken();
+    navigate(0);
+  };
   return (
     <div>
       <div className="drawer">
@@ -26,18 +38,29 @@ function Headeradmin() {
                 </svg>
               </label>
             </div>
-            <div className="flex-1 px-2 mx-2 text-3xl">ForAdmin</div>
+            <div className="flex-1 px-2 mx-2 text-3xl">
+              ForAdmin
+              <Link to="/">
+                <button className="btn mx-4">Back to home</button>
+              </Link>
+            </div>
+
             <div className="flex-none hidden lg:block">
               <ul className="menu menu-horizontal">
                 {/* Navbar menu content here */}
+
+                <Link to="/admin/approve">
+                  <li>
+                    <a>รายการที่รอการตรวจสอบ</a>
+                  </li>
+                </Link>
+                <Link to="/admin/room">
+                  <li>
+                    <a>แก้ไขห้องพัก</a>
+                  </li>
+                </Link>
                 <li>
-                  <a>รายการที่รอการตรวจสอบ</a>
-                </li>
-                <li>
-                  <a>แก้ไขห้องพัก</a>
-                </li>
-                <li>
-                  <a>ออกจากระบบ</a>
+                  <a onClick={() => logOut()}>ออกจากระบบ</a>
                 </li>
               </ul>
             </div>
@@ -59,6 +82,7 @@ function Headeradmin() {
           </ul>
         </div> */}
       </div>
+      <Loading loading={loading} />
     </div>
   );
 }

@@ -13,7 +13,7 @@ function HistoryPage() {
   console.log(myBookings);
   return (
     <PageContainer>
-      <div className=" bg-background  h-[calc(100vh-12rem)]">
+      <div className=" bg-background  h-[calc(100vh-12rem)] overflow-scroll">
         <div className="bg-card text-center py-4 text-bb font-medium">
           การจอง
         </div>

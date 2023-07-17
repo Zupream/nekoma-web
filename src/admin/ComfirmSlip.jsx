@@ -15,7 +15,7 @@ function ConfirmSlip() {
   return (
     <PageContainer>
       {allBooking.map((el) => (
-        <Booking booking={el} />
+        <Booking key={el.id} booking={el} />
       ))}
     </PageContainer>
   );
